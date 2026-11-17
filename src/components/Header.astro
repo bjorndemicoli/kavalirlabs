@@ -1,16 +1,135 @@
 ---
+// Site header with the main menu. It stays at the top of the screen while scrolling.
+// Links start with "/" so they also work from the privacy policy and 404 pages.
+const links = [
+  { href: '/#services', label: 'Services' },
+  { href: '/#how-it-works', label: 'How It Works' },
+  { href: '/#why-kavalir-labs', label: 'Why Us' },
+  { href: '/#faq', label: 'FAQ' },
+];
+
+const focusClass =
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400';
 ---
 
-<header class="absolute inset-x-0 top-0 z-40">
-  <div class="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
-    <a href="/" class="font-display text-xl font-semibold tracking-tight text-offwhite">
+{/* Background and border come from .site-header in global.css (see-through at the very top). */}
+<header class="site-header fixed inset-x-0 top-0 z-40">
+  <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-6 sm:gap-6 lg:h-20">
+    <a href="/" class:list={['whitespace-nowrap font-display text-xl font-semibold tracking-tight text-offwhite', focusClass]}>
       Kavalir<span class="text-teal-400"> Labs</span>
     </a>
-    <a
-      href="/#contact"
-      class="rounded-full border border-slate-blue-400/80 px-5 py-2 text-sm font-medium text-offwhite transition-colors hover:border-teal-400 hover:text-teal-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
-    >
-      Book a call
-    </a>
+
+    {/* Links in the bar from 1024px wide */}
+    <nav aria-label="Main" class="hidden lg:block">
+      <ul role="list" class="flex items-center gap-9 text-sm font-medium">
+        {
+          links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class:list={[
+                  'inline-block py-2 text-slate-blue-300 transition-colors hover:text-offwhite',
+                  focusClass,
+                ]}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a
+        href="/#contact"
+        class:list={[
+          'whitespace-nowrap rounded-full border border-slate-blue-400/80 px-4 py-2 text-sm font-medium text-offwhite transition-colors hover:border-teal-400 hover:text-teal-300 sm:px-5',
+          focusClass,
+        ]}
+      >
+        Book a call
+      </a>
+
+      {/*
+        Below 1024px the links sit behind a menu button. A native <details> element,
+        so it opens without JavaScript; the script below only adds closing behaviour.
+      */}
+      <details data-menu class="group relative lg:hidden">
+        <summary
+          aria-label="Menu"
+          class:list={[
+            'flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-slate-blue-400/80 text-offwhite transition-colors hover:border-teal-400 hover:text-teal-300 [&::-webkit-details-marker]:hidden',
+            focusClass,
+          ]}
+        >
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            class="h-5 w-5 group-open:hidden"
+          >
+            <path d="M4.75 7.25h14.5M4.75 12h14.5M4.75 16.75h14.5" />
+          </svg>
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            class="hidden h-5 w-5 group-open:block"
+          >
+            <path d="M6.75 6.75l10.5 10.5M17.25 6.75l-10.5 10.5" />
+          </svg>
+        </summary>
+
+        <nav
+          aria-label="Main"
+          class="absolute right-0 top-full mt-3 w-60 rounded-2xl border border-slate-blue-500/30 bg-navy-950 p-2 shadow-2xl shadow-black/40"
+        >
+          <ul role="list" class="text-base font-medium">
+            {
+              links.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class:list={[
+                      'block rounded-xl px-4 py-3 text-offwhite transition-colors hover:bg-navy-800 hover:text-teal-300',
+                      focusClass,
+                    ]}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </details>
+    </div>
   </div>
 </header>
+
+<script>
+  // Closing behaviour for the small-screen menu: after choosing a link, on Escape,
+  // and when clicking or tapping anywhere outside it.
+  const menu = document.querySelector<HTMLDetailsElement>('[data-menu]');
+  if (menu) {
+    menu.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) menu.open = false;
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        menu.querySelector('summary')?.focus();
+      }
+    });
+    document.addEventListener('click', (event) => {
+      if (menu.open && !menu.contains(event.target as Node)) menu.open = false;
+    });
+  }
+</script>

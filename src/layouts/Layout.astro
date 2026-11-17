@@ -73,6 +73,16 @@ const organization = {
     <script is:inline>
       (function () {
         var root = document.documentElement;
+
+        // Header: see-through while the page is at the very top (styles in global.css).
+        var updateHeader = function () {
+          root.classList.toggle('header-at-top', window.scrollY < 8);
+        };
+        updateHeader();
+        window.addEventListener('scroll', updateHeader, { passive: true });
+        window.addEventListener('pageshow', updateHeader);
+
+        // Scroll reveal.
         if (
           !('IntersectionObserver' in window) ||
           window.matchMedia('(prefers-reduced-motion: reduce)').matches

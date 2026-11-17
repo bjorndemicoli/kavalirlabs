@@ -51,6 +51,37 @@
 
 html {
   scroll-behavior: smooth;
+  /* Height of the fixed header, so jump links and keyboard focus never land underneath it. */
+  scroll-padding-top: calc(4rem + 1px);
+}
+
+@media (min-width: 64rem) {
+  html {
+    scroll-padding-top: calc(5rem + 1px);
+  }
+}
+
+/*
+ * Site header. Dark and slightly see-through by default, so it reads over light and
+ * dark sections. The inline script in Layout.astro adds .header-at-top to <html> while
+ * the page is scrolled to the very top; the bar is then fully see-through, unless the
+ * small-screen menu is open. Without JavaScript it simply stays dark.
+ */
+.site-header {
+  background-color: color-mix(in srgb, var(--color-navy-950) 92%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-slate-blue-500) 25%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.header-at-top .site-header:not(:has(details[open])) {
+  background-color: transparent;
+  border-bottom-color: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 body {
@@ -111,5 +142,10 @@ body {
 
   .animate-fade-up {
     animation: none;
+  }
+
+  /* A fixed header would otherwise repeat on every printed page. */
+  .site-header {
+    position: absolute;
   }
 }
