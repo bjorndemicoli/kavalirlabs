@@ -1,0 +1,87 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/space-grotesk';
+
+@theme {
+  /* Brand palette: deep navy, slate blue, teal, off-white */
+  --color-navy-950: #070f1c;
+  --color-navy-900: #0b1626;
+  --color-navy-800: #12213a;
+  --color-navy-700: #1b2f50;
+  --color-slate-blue-600: #3b5278;
+  --color-slate-blue-500: #4a6694;
+  --color-slate-blue-400: #6f8ab5;
+  --color-slate-blue-300: #9db1d1;
+  /* teal-700 and teal-600 are the accents for light sections (readable on off-white) */
+  --color-teal-700: #0f766e;
+  --color-teal-600: #0d9488;
+  --color-teal-500: #14b8a6;
+  --color-teal-400: #2dd4bf;
+  --color-teal-300: #5eead4;
+  --color-offwhite: #f5f3ee;
+
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-navy-900);
+  color: var(--color-offwhite);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Scroll reveal. Elements marked data-reveal fade up when they enter the viewport.
+ * The hidden state only applies once the inline script in Layout.astro has added
+ * .reveal-on to <html>, so content stays visible without JavaScript.
+ */
+.reveal-on [data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal-on [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-on [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

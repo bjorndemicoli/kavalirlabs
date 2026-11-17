@@ -1,0 +1,91 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Kavalir Labs',
+  url: 'https://kavalirlabs.com',
+  description,
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#0b1626" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Kavalir Labs" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(organization)} />
+
+    <!--
+      Scroll reveal for elements marked data-reveal (styles in global.css).
+      Runs inline in the head so the hidden state is set before first paint.
+      If anything fails, .reveal-on is removed and all content stays visible.
+    -->
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        if (
+          !('IntersectionObserver' in window) ||
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ) {
+          return;
+        }
+        root.classList.add('reveal-on');
+        document.addEventListener('DOMContentLoaded', function () {
+          try {
+            var observer = new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (entry) {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                  }
+                });
+              },
+              { rootMargin: '0px 0px -8% 0px', threshold: 0.15 }
+            );
+            document.querySelectorAll('[data-reveal]').forEach(function (el) {
+              observer.observe(el);
+            });
+          } catch (error) {
+            root.classList.remove('reveal-on');
+          }
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-teal-400 focus:px-4 focus:py-2 focus:text-navy-950"
+    >
+      Skip to content
+    </a>
+    <slot />
+  </body>
+</html>
