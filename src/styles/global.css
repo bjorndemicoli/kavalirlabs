@@ -7,14 +7,12 @@
   --color-navy-950: #070f1c;
   --color-navy-900: #0b1626;
   --color-navy-800: #12213a;
-  --color-navy-700: #1b2f50;
   --color-slate-blue-600: #3b5278;
   --color-slate-blue-500: #4a6694;
   --color-slate-blue-400: #6f8ab5;
   --color-slate-blue-300: #9db1d1;
-  /* teal-700 and teal-600 are the accents for light sections (readable on off-white) */
+  /* teal-700 is the accent for light sections (readable on off-white) */
   --color-teal-700: #0f766e;
-  --color-teal-600: #0d9488;
   --color-teal-500: #14b8a6;
   --color-teal-400: #2dd4bf;
   --color-teal-300: #5eead4;
@@ -97,5 +95,21 @@ body {
     animation-duration: 0.01ms !important;
     animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+ * Printing and "save as PDF". Sections that were never scrolled into view would
+ * otherwise print blank, because they are still in the hidden scroll-reveal state.
+ */
+@media print {
+  .reveal-on [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .animate-fade-up {
+    animation: none;
   }
 }

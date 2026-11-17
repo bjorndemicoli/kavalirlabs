@@ -49,7 +49,7 @@ const fieldErrorClass = 'mt-2 hidden text-sm text-red-300 data-[fs-active]:block
           href={calendlyUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex w-full items-center justify-center gap-3 rounded-full bg-teal-400 px-8 py-4 text-base font-semibold text-navy-950 transition hover:bg-teal-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-300 sm:w-auto"
+          class="inline-flex w-full items-center justify-center gap-3 whitespace-nowrap rounded-full bg-teal-400 px-5 py-4 text-base font-semibold text-navy-950 transition hover:bg-teal-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-300 sm:w-auto sm:px-8"
         >
           Book a Free Consultation
           <svg
@@ -96,7 +96,8 @@ const fieldErrorClass = 'mt-2 hidden text-sm text-red-300 data-[fs-active]:block
         <p
           data-fs-error=""
           role="alert"
-          class="hidden rounded-xl border border-red-300/40 bg-red-400/10 px-4 py-3 text-sm leading-relaxed text-red-200 data-[fs-active]:block"
+          tabindex="-1"
+          class="hidden rounded-xl border border-red-300/40 bg-red-400/10 px-4 py-3 text-sm leading-relaxed text-red-200 focus:outline-none data-[fs-active]:block"
         >
           Sorry, your message could not be sent. Please try again, or email {email}.
         </p>
@@ -110,9 +111,10 @@ const fieldErrorClass = 'mt-2 hidden text-sm text-red-300 data-[fs-active]:block
             autocomplete="name"
             required
             data-fs-field
+            aria-describedby="contact-name-error"
             class={fieldClass}
           />
-          <p data-fs-error="name" class={fieldErrorClass}></p>
+          <p id="contact-name-error" data-fs-error="name" class={fieldErrorClass}></p>
         </div>
 
         <div>
@@ -124,16 +126,23 @@ const fieldErrorClass = 'mt-2 hidden text-sm text-red-300 data-[fs-active]:block
             autocomplete="email"
             required
             data-fs-field
+            aria-describedby="contact-email-error"
             class={fieldClass}
           />
-          <p data-fs-error="email" class={fieldErrorClass}></p>
+          <p id="contact-email-error" data-fs-error="email" class={fieldErrorClass}></p>
         </div>
 
         <div>
           <label for="contact-message" class={labelClass}>Message</label>
-          <textarea id="contact-message" name="message" rows="5" required data-fs-field class={fieldClass}
-          ></textarea>
-          <p data-fs-error="message" class={fieldErrorClass}></p>
+          <textarea
+            id="contact-message"
+            name="message"
+            rows="5"
+            required
+            data-fs-field
+            aria-describedby="contact-message-error"
+            class={fieldClass}></textarea>
+          <p id="contact-message-error" data-fs-error="message" class={fieldErrorClass}></p>
         </div>
 
         {/* Spam trap: hidden from people, so only bots fill it in. Formspree discards those. */}
@@ -147,6 +156,14 @@ const fieldErrorClass = 'mt-2 hidden text-sm text-red-300 data-[fs-active]:block
         >
           Send Message
         </button>
+
+        <p class="text-sm leading-relaxed text-slate-blue-300">
+          We only use your details to reply to you. Read our <a
+            href="/privacy/"
+            class="font-medium text-offwhite underline decoration-teal-400 underline-offset-4 transition-colors hover:text-teal-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
+            >Privacy Policy</a
+          >.
+        </p>
       </form>
 
       {/* Replaces the form once the message has been sent. */}
@@ -171,6 +188,16 @@ const fieldErrorClass = 'mt-2 hidden text-sm text-red-300 data-[fs-active]:block
 
   const form = document.querySelector<HTMLFormElement>('#contact-form');
   if (form) {
+    // When sending fails, move focus to the first field Formspree rejected, or to the
+    // general error message, so keyboard and screen reader users are told what happened.
+    // (The library disables the Send button while sending, which drops focus otherwise.)
+    const focusError = (context: { form: HTMLFormElement }) => {
+      const target =
+        context.form.querySelector<HTMLElement>('[aria-invalid="true"]') ??
+        context.form.querySelector<HTMLElement>('[data-fs-error=""]');
+      target?.focus();
+    };
+
     initForm({
       formElement: form,
       // The form id is the last part of the endpoint in the form's action attribute.
@@ -181,6 +208,8 @@ const fieldErrorClass = 'mt-2 hidden text-sm text-red-300 data-[fs-active]:block
         context.form.hidden = true;
         document.querySelector<HTMLElement>('#contact-success')?.focus();
       },
+      onError: focusError,
+      onFailure: focusError,
     });
   }
 </script>

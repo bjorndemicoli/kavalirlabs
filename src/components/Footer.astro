@@ -1,0 +1,30 @@
+---
+// Site footer, shown on every page.
+const year = new Date().getFullYear();
+const email = 'info@kavalirlabs.com';
+const linkClass =
+  'inline-block py-1 text-offwhite underline-offset-4 transition-colors hover:text-teal-300 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400';
+---
+
+<footer class="border-t border-slate-blue-500/20 bg-navy-950 text-slate-blue-300">
+  <div
+    class="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-12 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div>
+      <a
+        href="/"
+        class="font-display text-xl font-semibold tracking-tight text-offwhite focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-400"
+      >
+        Kavalir<span class="text-teal-400"> Labs</span>
+      </a>
+      <p class="mt-2 text-sm">&copy; {year} Kavalir Labs</p>
+    </div>
+
+    <nav aria-label="Footer">
+      <ul role="list" class="flex flex-col gap-2 text-sm sm:flex-row sm:gap-8">
+        <li><a href="/privacy/" class={linkClass}>Privacy Policy</a></li>
+        <li><a href={`mailto:${email}`} class={linkClass}>{email}</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>

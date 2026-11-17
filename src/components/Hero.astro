@@ -22,10 +22,13 @@
     </div>
   </div>
 
-  <div class="mx-auto w-full max-w-6xl px-6 pb-24 pt-36 text-center">
+  {/* The max-height rules keep the text and buttons on the first screen of a phone held sideways. */}
+  <div
+    class="mx-auto w-full max-w-6xl px-6 pb-24 pt-36 text-center [@media(max-height:480px)]:pb-16 [@media(max-height:480px)]:pt-20"
+  >
     <h1
       id="hero-heading"
-      class="mx-auto max-w-5xl animate-fade-up text-balance font-display text-5xl font-semibold leading-[1.05] tracking-tight text-offwhite sm:text-6xl xl:text-7xl"
+      class="mx-auto max-w-5xl animate-fade-up text-balance font-display text-5xl font-semibold leading-[1.05] tracking-tight text-offwhite sm:text-6xl xl:text-7xl [@media(max-height:480px)]:text-5xl"
     >
       {/* Each sentence starts on its own line; the space keeps the text readable as one string. */}
       Less manual work.{' '}
@@ -33,14 +36,14 @@
     </h1>
 
     <p
-      class="mx-auto mt-8 max-w-2xl animate-fade-up text-pretty text-lg leading-relaxed text-slate-blue-300 [animation-delay:120ms] sm:text-xl"
+      class="mx-auto mt-8 max-w-2xl animate-fade-up text-pretty text-lg leading-relaxed text-slate-blue-300 [animation-delay:120ms] sm:text-xl [@media(max-height:480px)]:mt-6"
     >
       We design and build intelligent automation and custom AI solutions that streamline business
       operations, connect systems, reduce costs and unlock new opportunities for growth.
     </p>
 
     <div
-      class="mt-12 flex animate-fade-up flex-col items-center justify-center gap-4 [animation-delay:240ms] sm:flex-row"
+      class="mt-12 flex animate-fade-up flex-col items-center justify-center gap-4 [animation-delay:240ms] sm:flex-row [@media(max-height:480px)]:mt-8"
     >
       <a
         href="#contact"

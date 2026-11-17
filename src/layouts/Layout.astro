@@ -1,19 +1,33 @@
 ---
 import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+// The two font files every page uses, preloaded so text renders in its final font sooner.
+import groteskLatin from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url';
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 
 interface Props {
   title: string;
   description: string;
+  /** Keep the page out of search results (used by the 404 page). */
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const isHome = Astro.url.pathname === '/';
 
+// Image shown when the link is shared (public/og-image.png, 1200 x 630).
+const shareImage = new URL('/og-image.png', Astro.site);
+const shareImageAlt = 'Kavalir Labs. Less manual work. More time for your business.';
+
+// Structured data about the business, on the home page only.
 const organization = {
   '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
+  '@type': 'Organization',
   name: 'Kavalir Labs',
-  url: 'https://kavalirlabs.com',
+  url: 'https://kavalirlabs.com/',
+  email: 'info@kavalirlabs.com',
   description,
 };
 ---
@@ -25,8 +39,13 @@ const organization = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    {/* crossorigin is required on font preloads, or the browser downloads the font twice. */}
+    <link rel="preload" as="font" type="font/woff2" href={groteskLatin} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={interLatin} crossorigin />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#0b1626" />
 
@@ -34,12 +53,17 @@ const organization = {
     <meta property="og:site_name" content="Kavalir Labs" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={shareImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={shareImage} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(organization)} />
+    {isHome && <script type="application/ld+json" set:html={JSON.stringify(organization)} />}
 
     {/*
       Scroll reveal for elements marked data-reveal (styles in global.css).
@@ -86,6 +110,11 @@ const organization = {
     >
       Skip to content
     </a>
-    <slot />
+    {/* The header sits on top of the first block of each page, which must be dark. */}
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>

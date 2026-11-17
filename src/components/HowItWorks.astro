@@ -34,12 +34,15 @@ const steps = [
           const isLast = index === steps.length - 1;
           return (
             <li data-reveal style={`--reveal-delay: ${index * 100}ms`} class="flex gap-6 lg:block">
-              <div aria-hidden="true" class="flex w-16 shrink-0 flex-col items-center lg:w-auto lg:flex-row">
+              <div
+                aria-hidden="true"
+                class="flex w-16 shrink-0 flex-col items-start lg:w-auto lg:flex-row lg:items-center"
+              >
                 <span class="font-display text-5xl font-semibold leading-none tracking-tight text-teal-700 lg:text-6xl">
                   {step.number}
                 </span>
                 {!isLast && (
-                  <span class="my-4 w-px flex-1 bg-navy-900/15 lg:mx-6 lg:my-0 lg:h-px lg:w-auto" />
+                  <span class="my-4 ml-7 w-px flex-1 bg-navy-900/15 lg:mx-6 lg:my-0 lg:h-px lg:w-auto" />
                 )}
               </div>
               <div class:list={['lg:mt-8 lg:pr-8', isLast ? 'pb-0' : 'pb-12 lg:pb-0']}>
