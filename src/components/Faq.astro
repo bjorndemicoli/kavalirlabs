@@ -1,0 +1,136 @@
+---
+// Section 6: FAQ
+// Every word here (heading, intro, questions, answers) was supplied by the client.
+// Do not reword without asking. The copy uses UK spelling.
+const faqs = [
+  {
+    question: 'What business processes can you automate?',
+    answer: [
+      'We automate everything from simple, repetitive tasks to complex, multi-step business processes. Our capabilities include customer support, financial operations, document processing, sales and marketing, reporting, data analysis, employee onboarding, system integrations and internal operations.',
+      'Beyond traditional automation, we develop custom AI agents, intelligent assistants and tailored software solutions that can analyse information, support decision-making and execute tasks across multiple systems.',
+      'Whether you need to automate a single task, connect disconnected applications or transform an entire business workflow, we design solutions around your specific requirements. We are not limited to predefined tools, platforms or industries.',
+    ],
+  },
+  {
+    question: 'Do we need to replace our existing software?',
+    answer: [
+      'No. We design solutions around your existing tools and systems wherever possible. Our goal is to make your current technology work better together without disrupting your business operations.',
+    ],
+  },
+  {
+    question: 'How much does AI automation cost?',
+    answer: [
+      "Pricing depends on the complexity of the automation and your business requirements. We typically charge an initial implementation fee followed by a monthly fee for maintenance and ongoing support. You'll receive a clear proposal before committing to anything.",
+    ],
+  },
+  {
+    question: 'How long does it take to implement an automation?',
+    answer: [
+      "Simple automations can be implemented within days, while more complex projects may take several weeks. We'll establish a realistic timeline based on your requirements during our initial consultation.",
+    ],
+  },
+  {
+    question: 'Is our business data secure?',
+    answer: [
+      'Security and privacy are central to how we design our solutions. We implement appropriate safeguards, access controls and secure integrations, taking your business requirements and applicable data protection regulations into consideration.',
+    ],
+  },
+  {
+    question: 'Is AI automation suitable for small businesses?',
+    answer: [
+      "Absolutely. You don't need to be a large organisation to benefit from automation. We build solutions for businesses of all sizes, helping you get more done without unnecessarily increasing your operating costs.",
+    ],
+  },
+  {
+    question: 'Do we need technical knowledge to use your solutions?',
+    answer: [
+      'Not at all. We handle the technical work, from development and integration to deployment and maintenance. Our solutions are designed to be straightforward for your team to use.',
+    ],
+  },
+  {
+    question: 'How do we know if automation is worth the investment?',
+    answer: [
+      "We work with you to identify opportunities where automation can deliver measurable value, whether that's time saved, reduced operational costs, faster customer responses or improved productivity.",
+    ],
+  },
+  {
+    question: 'What happens after implementation?',
+    answer: [
+      'We provide ongoing maintenance, monitoring and support to keep your automations running reliably. As your business evolves, we can adapt existing solutions and introduce new automations.',
+    ],
+  },
+  {
+    question: "What if I'm not sure what to automate?",
+    answer: [
+      "That's exactly what our free consultation is for. We'll discuss your current processes, understand your challenges and identify practical opportunities where automation could make a difference. There's no obligation to proceed.",
+    ],
+  },
+];
+
+// Structured data for search engines. It repeats the visible questions and answers exactly.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer.join(' ') },
+  })),
+};
+---
+
+<section id="faq" aria-labelledby="faq-heading" class="bg-offwhite text-navy-900">
+  <div class="mx-auto max-w-3xl px-6 py-24 sm:py-32">
+    <div data-reveal class="text-center">
+      <h2
+        id="faq-heading"
+        class="text-balance font-display text-4xl font-semibold leading-[1.1] tracking-tight text-navy-900 sm:text-5xl lg:text-6xl"
+      >
+        Frequently Asked <span class="text-teal-700">Questions</span>
+      </h2>
+      <p class="mx-auto mt-6 max-w-xl text-balance text-lg leading-relaxed text-slate-blue-600">
+        Everything you need to know about automating your business with Kavalir Labs.
+      </p>
+    </div>
+
+    {/*
+      Native <details> elements: they work without JavaScript, are keyboard accessible,
+      and keep every answer in the page for search engines. All start closed.
+    */}
+    <div data-reveal class="mt-14 divide-y divide-navy-900/10 border-y border-navy-900/10">
+      {
+        faqs.map((faq) => (
+          <details class="group">
+            <summary class="group/summary flex cursor-pointer list-none items-center justify-between gap-6 rounded-lg py-6 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700 [&::-webkit-details-marker]:hidden">
+              <h3 class="font-display text-lg font-semibold leading-snug tracking-tight text-navy-900 transition-colors group-hover/summary:text-teal-700 sm:text-xl">
+                {faq.question}
+              </h3>
+              <span
+                aria-hidden="true"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-navy-900/15 text-teal-700 transition-transform duration-300 group-open:rotate-45"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  class="h-5 w-5"
+                >
+                  <path d="M12 5.75v12.5M5.75 12h12.5" />
+                </svg>
+              </span>
+            </summary>
+            <div class="space-y-4 pb-8 pr-12 text-base leading-relaxed text-slate-blue-600 group-open:animate-fade-in sm:pr-16">
+              {faq.answer.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+</section>

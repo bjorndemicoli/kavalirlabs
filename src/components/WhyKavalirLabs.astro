@@ -1,0 +1,122 @@
+---
+// Section 5: Why Kavalir Labs?
+// The heading and the four titles are the client's wording, and the descriptions
+// are the draft the client approved. Do not reword without asking.
+// Client rule for this section: no testimonials, statistics or guarantees unless real.
+const reasons = [
+  {
+    icon: 'check',
+    title: 'Built for reliability',
+    description:
+      'We test every automation before launch and keep monitoring it once it is live, so issues are found and fixed early.',
+  },
+  {
+    icon: 'lock',
+    title: 'Security and privacy by design',
+    description:
+      'We agree how your data is handled before we build, and each automation can reach only what it needs.',
+  },
+  {
+    icon: 'connect',
+    title: 'Works with your existing systems',
+    description:
+      'We build on the software you already have, such as email, spreadsheets and sales tools, instead of asking you to replace it.',
+  },
+  {
+    icon: 'bars',
+    title: 'Focused on measurable business results',
+    description:
+      'Each project starts with a clear target, such as hours saved or faster replies, and we track it with you.',
+  },
+];
+---
+
+{/* overflow-clip (not overflow-hidden) so the sticky heading below still works. */}
+<section
+  id="why-kavalir-labs"
+  aria-labelledby="why-kavalir-labs-heading"
+  class="relative isolate overflow-clip bg-navy-950 text-offwhite"
+>
+  {/* Decorative glows */}
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+    <div
+      class="absolute -left-48 top-1/2 h-[560px] w-[560px] -translate-y-1/2 rounded-full bg-teal-500/15 blur-[140px]"
+    >
+    </div>
+    <div class="absolute -right-40 -top-40 h-[420px] w-[420px] rounded-full bg-slate-blue-500/20 blur-[140px]">
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-6 py-24 sm:py-32 lg:grid lg:grid-cols-[5fr_7fr] lg:gap-16">
+    {/* From 1024px the heading stays in view while the reasons scroll past. */}
+    <div data-reveal class="lg:sticky lg:top-24 lg:self-start">
+      <h2
+        id="why-kavalir-labs-heading"
+        class="font-display text-5xl font-semibold leading-[1.05] tracking-tight text-offwhite sm:text-6xl"
+      >
+        Why <span class="block text-teal-400">Kavalir Labs?</span>
+      </h2>
+    </div>
+
+    <ul role="list" class="mt-14 divide-y divide-slate-blue-500/25 lg:mt-0">
+      {
+        reasons.map((reason, index) => (
+          <li
+            data-reveal
+            style={`--reveal-delay: ${index * 80}ms`}
+            class="flex gap-6 py-8 first:pt-0 last:pb-0"
+          >
+            <div
+              aria-hidden="true"
+              class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-teal-400/10 text-teal-400"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-7 w-7"
+              >
+                {reason.icon === 'check' && (
+                  <>
+                    <circle cx="12" cy="12" r="8.25" />
+                    <path d="M8.5 12.25l2.5 2.5 4.5-5.25" />
+                  </>
+                )}
+                {reason.icon === 'lock' && (
+                  <>
+                    <rect x="5.75" y="10.75" width="12.5" height="9.5" rx="2" />
+                    <path d="M8.75 10.75V8a3.25 3.25 0 0 1 6.5 0v2.75" />
+                    <path d="M12 14.75v1.5" />
+                  </>
+                )}
+                {reason.icon === 'connect' && (
+                  <>
+                    <rect x="3.75" y="3.75" width="7.5" height="7.5" rx="1.75" />
+                    <rect x="12.75" y="12.75" width="7.5" height="7.5" rx="1.75" />
+                    <path d="M11.25 7.5h3.25a2 2 0 0 1 2 2v3.25" />
+                  </>
+                )}
+                {reason.icon === 'bars' && (
+                  <>
+                    <rect x="4.75" y="13.25" width="3.5" height="7" rx="1" />
+                    <rect x="10.25" y="8.75" width="3.5" height="11.5" rx="1" />
+                    <rect x="15.75" y="3.75" width="3.5" height="16.5" rx="1" />
+                  </>
+                )}
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-display text-xl font-semibold leading-snug tracking-tight text-offwhite sm:text-2xl">
+                {reason.title}
+              </h3>
+              <p class="mt-2 text-base leading-relaxed text-slate-blue-300">{reason.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

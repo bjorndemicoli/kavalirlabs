@@ -72,12 +72,12 @@ const services = [
       </h2>
     </div>
 
-    <!--
+    {/*
       Six tiles: five services plus the "something else" tile. One column on phones,
       two from 768px, three from 1024px. Each service card is a subgrid spanning four
       rows (icon, name, description, examples) so those parts line up across a row
       even when one card's text wraps onto more lines than its neighbour's.
-    -->
+    */}
     <ul role="list" class="mt-16 grid gap-6 md:grid-cols-2 lg:mt-20 lg:grid-cols-3 lg:gap-8">
       {
         services.map((service, index) => (
@@ -161,7 +161,7 @@ const services = [
         ))
       }
 
-      <!-- Sixth tile: the client's closing message, linking to the contact section. -->
+      {/* Sixth tile: the client's closing message, linking to the contact section. */}
       <li data-reveal style="--reveal-delay: 200ms" class="row-span-4">
         <a
           href="#contact"

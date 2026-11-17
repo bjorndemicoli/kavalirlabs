@@ -1,0 +1,57 @@
+---
+// Section 4: How It Works
+// The label, heading, step names and step text are wording the client supplied
+// or approved. Do not reword without asking.
+const steps = [
+  { number: '01', title: 'Discover', description: 'Understand your business.' },
+  { number: '02', title: 'Plan', description: 'Identify opportunities and propose a solution.' },
+  { number: '03', title: 'Build', description: 'Develop and integrate the automation.' },
+  { number: '04', title: 'Support', description: 'Monitor, maintain and improve.' },
+];
+---
+
+<section id="how-it-works" aria-labelledby="how-it-works-heading" class="bg-offwhite text-navy-900">
+  <div class="mx-auto max-w-6xl px-6 py-24 sm:py-32">
+    <div data-reveal>
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-teal-700">How It Works</p>
+      <h2
+        id="how-it-works-heading"
+        class="mt-5 max-w-4xl text-balance font-display text-4xl font-semibold leading-[1.1] tracking-tight text-navy-900 sm:text-5xl lg:text-6xl"
+      >
+        Four steps from <span class="block text-teal-700">manual work to automation</span>
+      </h2>
+    </div>
+
+    {/*
+      Timeline. From 1024px the four steps sit side by side, each large number followed
+      by a thin line that runs to the next number. Below that they stack, with the
+      number on the left and the line running down to the next step.
+      The visible numbers are decorative: the ordered list already carries the order.
+    */}
+    <ol role="list" class="mt-16 lg:mt-20 lg:grid lg:grid-cols-4">
+      {
+        steps.map((step, index) => {
+          const isLast = index === steps.length - 1;
+          return (
+            <li data-reveal style={`--reveal-delay: ${index * 100}ms`} class="flex gap-6 lg:block">
+              <div aria-hidden="true" class="flex w-16 shrink-0 flex-col items-center lg:w-auto lg:flex-row">
+                <span class="font-display text-5xl font-semibold leading-none tracking-tight text-teal-700 lg:text-6xl">
+                  {step.number}
+                </span>
+                {!isLast && (
+                  <span class="my-4 w-px flex-1 bg-navy-900/15 lg:mx-6 lg:my-0 lg:h-px lg:w-auto" />
+                )}
+              </div>
+              <div class:list={['lg:mt-8 lg:pr-8', isLast ? 'pb-0' : 'pb-12 lg:pb-0']}>
+                <h3 class="font-display text-2xl font-semibold leading-snug tracking-tight text-navy-900">
+                  {step.title}
+                </h3>
+                <p class="mt-3 text-base leading-relaxed text-slate-blue-600">{step.description}</p>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>
