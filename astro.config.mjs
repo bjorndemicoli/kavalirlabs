@@ -9,5 +9,15 @@ export default defineConfig({
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: [
+        {
+          // @formspree/ajax's "browser" field points at its script-tag build, which has
+          // no exports, so `import { initForm }` fails. Use its ES module build instead.
+          find: /^@formspree\/ajax$/,
+          replacement: '@formspree/ajax/dist/index.mjs',
+        },
+      ],
+    },
   },
 });
